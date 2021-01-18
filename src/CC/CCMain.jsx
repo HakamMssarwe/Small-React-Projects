@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import FCPosts from '../FC/FCPosts';
+import FCPost from '../FC/FCPost';
 import '../Styles/style.css'
 import CCLogin from './CCLogin.jsx'
 import CCSignUp from './CCSignUp.jsx';
@@ -17,7 +17,8 @@ constructor(props)
   this.state = {
     currentUserInSession: "",
     posts:[],
-    errorMessage: "" //if user had invalid input when trying to login
+    errorMessage: "", //if user had invalid input when trying to login
+    postCount: 0
   }
 
 }
@@ -50,14 +51,27 @@ if (dataFromChild.title.trim() === "" || dataFromChild.descreption.trim() === ""
 
 //Signing the post by the user who's signed in at the current moment
 dataFromChild.posterName = this.state.currentUserInSession.username;
+dataFromChild.id = this.state.postCount;
 
-  
+//Increase counter
+this.setState((prevState, props) => ({   postCount: prevState.postCount + 1 }));
+
+//update posts array
 this.setState({posts:[...this.state.posts,dataFromChild]},() =>{alert('Posted Successfully!'); resetChildInput()})
 
 }
+
 signOutFromAccount = () =>{
   this.setState({currentUserInSession:{username:null,password:null}},() => this.props.history.push('/'))
 }
+
+deleteUserPost = (postID) =>{
+
+  let tempPost = this.state.posts;
+  this.setState({posts:tempPost.filter(post => post.id != postID)})
+}
+
+
 
 clearErrorMessage = () => {this.setState({errorMessage:""})}
 
@@ -69,7 +83,7 @@ clearErrorMessage = () => {this.setState({errorMessage:""})}
         <Route exact path="/"><CCLogin loginValidation={this.loginValidation} errorMessage={this.state.errorMessage}/></Route>
         <Route path="/signup"><CCSignUp clearErrorMessage={this.clearErrorMessage}/></Route>
         <Route path="/userpage"><CCUserPage user={this.state.currentUserInSession} updatePostFee={this.updatePostFee} signOutFromAccount={this.signOutFromAccount}/></Route>
-        <Route path="/posts"><FCPosts posts={this.state.posts} signOutFromAccount={this.signOutFromAccount}/></Route>
+        <Route path="/posts"><FCPost user = {this.state.currentUserInSession.username} posts={this.state.posts} signOutFromAccount={this.signOutFromAccount}    deleteUserPost={this.deleteUserPost}/></Route>
         </Switch>
             </div>
     )

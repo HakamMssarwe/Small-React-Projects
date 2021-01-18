@@ -156,7 +156,7 @@
 
 /*-------------------------------------------------------------------------------*/
 
-#FCPosts{
+#FCPost{
 width: 60%;
 height: 90%;
 display: flex;
@@ -165,7 +165,7 @@ align-items: center;
 flex-direction: column;
 color: white;
 }
-#FCPosts img{
+#FCPost img{
     width: 10%;
     height: 100%;
 }
@@ -191,10 +191,9 @@ color: white;
     margin-top: 20px;
 }
 
-#FCPosts button{
+#FCPost button{
     width: 25%;
     height: 50%;
     cursor: pointer;
     font-weight: bold;
 }
-
