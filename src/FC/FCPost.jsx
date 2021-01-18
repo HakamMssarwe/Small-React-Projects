@@ -10,7 +10,7 @@ function FCPost(props) {
     return (
         <div id="FCPost">
            <div id="navBar"><button onClick={sendToAccountPage}>Account</button><img src={logo} alt=""/><button onClick={props.signOutFromAccount}>Sign out</button></div>
-          {props.posts.map(post => 
+          {props.posts.filter(post =>post.posterName===props.user).map(post=>
            <div className="postContainer">
            <p className="title">Title: {post.title}</p>
            <p className="descreption">Descreption: {post.descreption}</p>
